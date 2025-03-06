@@ -59,7 +59,8 @@ public class EndToEndAPITest extends BaseTest {
 
 			Assert.assertEquals(firstName, "api testing");
 
-			int bookingId = JsonPath.read(response.body().asString(), "$.bookingid");
+			//int bookingId =response.jsonPath().getInt("bookingid"); //JsonPath.read(response.body().asString(), "$.bookingid");
+			int bookingId =response.path("bookingid");
 			System.out.println("Booking Id : " + bookingId);
 
 			// get api call
@@ -69,7 +70,7 @@ public class EndToEndAPITest extends BaseTest {
 					.contentType(ContentType.JSON)
 					.baseUri("https://restful-booker.herokuapp.com/booking")
 				.when()
-					.get("/{bookingId}", bookingId)
+					.get("/"+bookingId)       //"/{bookingId}", bookingId)
 				.then()
 					.assertThat()
 					.statusCode(200);
